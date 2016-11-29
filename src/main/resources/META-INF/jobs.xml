@@ -1,0 +1,26 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+    xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+    xmlns:context="http://www.springframework.org/schema/context" 
+    xmlns:reg="http://www.dangdang.com/schema/ddframe/reg" 
+    xmlns:job="http://www.dangdang.com/schema/ddframe/job" 
+    xsi:schemaLocation="http://www.springframework.org/schema/beans 
+                        http://www.springframework.org/schema/beans/spring-beans.xsd 
+                        http://www.springframework.org/schema/context 
+                        http://www.springframework.org/schema/context/spring-context.xsd 
+                        http://www.dangdang.com/schema/ddframe/reg 
+                        http://www.dangdang.com/schema/ddframe/reg/reg.xsd 
+                        http://www.dangdang.com/schema/ddframe/job 
+                        http://www.dangdang.com/schema/ddframe/job/job.xsd">
+    <context:component-scan base-package="com.dfire" />
+    <context:property-placeholder location="classpath:conf/*.properties" />
+    
+    <reg:zookeeper id="regCenter" server-lists="${serverLists}" namespace="${namespace}" base-sleep-time-milliseconds="${baseSleepTimeMilliseconds}" max-sleep-time-milliseconds="${maxSleepTimeMilliseconds}" max-retries="${maxRetries}" nested-port="${nestedPort}" nested-data-dir="${nestedDataDir}" session-timeout-milliseconds="${sessionTimeoutMilliseconds}"/>
+    
+    <job:simple id="onceExecutionInClusterJob" class="com.dfire.jobs.OnceExecutionInClusterJob" registry-center-ref="regCenter" sharding-total-count="${onceExecutionInClusterJob.shardingTotalCount}" cron="${onceExecutionInClusterJob.cron}" sharding-item-parameters="${onceExecutionInClusterJob.shardingItemParameters}" monitor-execution="${onceExecutionInClusterJob.monitorExecution}" monitor-port="${onceExecutionInClusterJob.monitorPort}" failover="${onceExecutionInClusterJob.failover}" description="${onceExecutionInClusterJob.description}" disabled="${onceExecutionInClusterJob.disabled}" overwrite="${onceExecutionInClusterJob.overwrite}" />
+    <job:simple id="distributedExecutionInClusterJob" class="com.dfire.jobs.DistributedExecutionInClusterJob" registry-center-ref="regCenter" sharding-total-count="${distributedExecutionInClusterJob.shardingTotalCount}" cron="${distributedExecutionInClusterJob.cron}" sharding-item-parameters="${distributedExecutionInClusterJob.shardingItemParameters}" monitor-execution="${distributedExecutionInClusterJob.monitorExecution}" monitor-port="${distributedExecutionInClusterJob.monitorPort}" failover="${distributedExecutionInClusterJob.failover}" description="${distributedExecutionInClusterJob.description}" disabled="${distributedExecutionInClusterJob.disabled}" overwrite="${distributedExecutionInClusterJob.overwrite}" />
+    <!--<job:script registry-center-ref="regCenter" cron="" sharding-total-count="" />-->
+    <!--<job:dataflow id="throughputDataFlowJob" class="com.dfire.jobs.ThroughputDataFlowJobDemo" registry-center-ref="regCenter" sharding-total-count="${throughputDataFlowJob.shardingTotalCount}" cron="${throughputDataFlowJob.cron}" sharding-item-parameters="${throughputDataFlowJob.shardingItemParameters}" monitor-execution="${throughputDataFlowJob.monitorExecution}" failover="${throughputDataFlowJob.failover}" process-count-interval-seconds="${throughputDataFlowJob.processCountIntervalSeconds}" concurrent-data-process-thread-count="${throughputDataFlowJob.concurrentDataProcessThreadCount}" description="${throughputDataFlowJob.description}" disabled="${throughputDataFlowJob.disabled}" overwrite="${throughputDataFlowJob.overwrite}" streaming-process="${throughputDataFlowJob.streamingProcess}" />-->
+    <!--<job:dataflow id="sequenceDataFlowJob" class="com.dfire.jobs.SequenceDataFlowJobDemo" registry-center-ref="regCenter" sharding-total-count="${sequenceDataFlowJob.shardingTotalCount}" cron="${sequenceDataFlowJob.cron}" sharding-item-parameters="${sequenceDataFlowJob.shardingItemParameters}" monitor-execution="${sequenceDataFlowJob.monitorExecution}" failover="${sequenceDataFlowJob.failover}" process-count-interval-seconds="${sequenceDataFlowJob.processCountIntervalSeconds}" max-time-diff-seconds="${sequenceDataFlowJob.maxTimeDiffSeconds}" description="${sequenceDataFlowJob.description}" disabled="${sequenceDataFlowJob.disabled}" overwrite="${sequenceDataFlowJob.overwrite}" />-->
+    <job:simple id="testExecutionInClusterJob" class="com.dfire.jobs.TestExecutionInClusterJob" registry-center-ref="regCenter" sharding-total-count="${testExecutionInClusterJob.shardingTotalCount}" cron="${testExecutionInClusterJob.cron}" sharding-item-parameters="${testExecutionInClusterJob.shardingItemParameters}" monitor-execution="${testExecutionInClusterJob.monitorExecution}" monitor-port="${testExecutionInClusterJob.monitorPort}" failover="${testExecutionInClusterJob.failover}" description="${testExecutionInClusterJob.description}" disabled="${testExecutionInClusterJob.disabled}" overwrite="${testExecutionInClusterJob.overwrite}" />
+</beans>
